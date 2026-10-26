@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D5 — Research Note | Sanctum Home Loan Approval</title>
+<style>
+@page{margin:18mm}
+body{font:15px/1.55 Georgia,serif;color:#1a1a1a;max-width:760px;margin:32px auto;padding:0 20px}
+h1{font-size:1.55rem;margin:0 0 .4em}
+h2{font-size:1.15rem;margin:1.4em 0 .45em;border-bottom:1px solid #ccc;padding-bottom:.25em}
+h3{font-size:1rem;margin:1em 0 .3em}
+p,li{margin:0 0 .65em}ul{padding-left:1.2em}
+.meta{color:#555;font-size:.9rem;margin-bottom:1.4em}
+table{border-collapse:collapse;width:100%;font-size:.9rem;margin:10px 0 16px}
+th,td{border:1px solid #ccc;padding:7px 8px;text-align:left;vertical-align:top}
+th{background:#f3f3f3}
+.note{font-size:.88rem;color:#444;background:#f7f7f7;padding:10px 12px;border-left:3px solid #c9892e;margin:12px 0}
+@media print{body{margin:0;max-width:none}a{color:inherit;text-decoration:none}.noprint{display:none}}
+</style>
+</head>
+<body>
+<p class="noprint"><button onclick="window.print()">Print / Save as PDF</button></p>
+<h1>Research note: How home loan approval works in an Indian bank</h1>
+<p class="meta"><strong>Deliverable D5</strong> · Product in scope: Home loan (purchase of ready residential property) · POV demo: Sanctum · Synthetic data only · ~2 pages</p>
+
+<h2>1. Why this process matters</h2>
+<p>Home loans are long-tenor, collateral-backed products. Turnaround time (TAT), consistency across branches, and regulatory compliance (KYC, LTV, fair practices) all affect customer experience and credit risk. Much of the work is still document-heavy and manual: reading PDFs, reconciling income, calling bureaus, and checking property charges before a credit officer sanctions.</p>
+
+<h2>2. End-to-end stages (application → disbursement)</h2>
+<table>
+  <tr><th>Stage</th><th>Who owns it</th><th>What happens</th></tr>
+  <tr><td>1. Origination / application</td><td>Customer, Relationship Manager (RM), digital channel</td><td>Product selected; personal, income and property details captured; indicative eligibility / EMI discussed.</td></tr>
+  <tr><td>2. Document collection &amp; KYC</td><td>RM / operations</td><td>PAN, Aadhaar, photos, address proof; salary slips / Form 16 / ITRs; bank statements; property documents (sale deed, title chain, tax receipts, approved plan).</td></tr>
+  <tr><td>3. Credit appraisal</td><td>Credit analyst / underwriter</td><td>Income assessment, FOIR / repayment capacity, bureau score &amp; tradelines, existing obligations, employment / business stability.</td></tr>
+  <tr><td>4. Property due diligence</td><td>Legal + technical valuation panels</td><td>Title search / legal opinion; valuation report; CERSAI search for prior charges; project / builder checks where relevant.</td></tr>
+  <tr><td>5. Sanction</td><td>Credit officer / sanctioning authority (delegated limits)</td><td>Approve, approve with conditions, or decline. Sanction letter with rate, tenure, conditions, validity.</td></tr>
+  <tr><td>6. Agreement, mortgage, CERSAI</td><td>Legal / ops</td><td>Loan agreement; creation of mortgage / charge; registration of charge with CERSAI as applicable.</td></tr>
+  <tr><td>7. Disbursement</td><td>Ops / treasury</td><td>Often in tranches (under-construction) or lump sum (ready property); linked to compliance with sanction conditions.</td></tr>
+</table>
+
+<h2>3. Roles typically involved</h2>
+<ul>
+  <li><strong>Applicant / co-applicant</strong> — provides data and documents; may be salaried or self-employed.</li>
+  <li><strong>RM / sales</strong> — originates the case, explains product, pushes for completeness.</li>
+  <li><strong>Credit / underwriting</strong> — risk decision and recommendation up the sanction ladder.</li>
+  <li><strong>Legal counsel / empaneled lawyers</strong> — title and documentation.</li>
+  <li><strong>Valuer</strong> — market / forced-sale value of collateral.</li>
+  <li><strong>Ops / disbursement team</strong> — post-sanction checklist and release of funds.</li>
+</ul>
+
+<h2>4. Key checks and policy anchors</h2>
+<ul>
+  <li><strong>KYC / AML</strong> — per RBI Know Your Customer directions; identity and address verification before account / loan relationships deepen.</li>
+  <li><strong>LTV (loan-to-value)</strong> — RBI has prescribed LTV caps for housing loans by ticket size bands (commonly cited: up to 90% for smaller tickets, stepping down for larger loans). Banks embed these in credit policy.</li>
+  <li><strong>FOIR / income norms</strong> — bank-specific ceilings on fixed obligations vs income; treatment differs for salaried vs self-employed.</li>
+  <li><strong>Bureau</strong> — CIBIL / other CIC score, delinquencies, enquiries, unsecured exposure.</li>
+  <li><strong>CERSAI</strong> — search for existing security interest on the property before creating a fresh charge.</li>
+  <li><strong>Fair Practices Code</strong> — transparent terms, timely communication of decision and reasons for decline where required.</li>
+</ul>
+
+<h2>5. Documents (typical home loan file)</h2>
+<p><strong>Identity &amp; KYC:</strong> PAN, Aadhaar / OVD, photographs, address proof.<br>
+<strong>Income (salaried):</strong> 3–6 months salary slips, Form 16, bank statements showing salary credits.<br>
+<strong>Income (self-employed):</strong> 2–3 years ITR with computation, GST returns, business bank statements, CA-certified financials where asked.<br>
+<strong>Property:</strong> title documents, chain of ownership, tax paid receipts, approved plan / occupancy where applicable, society NOC if needed.</p>
+
+<h2>6. Typical turnaround and pain points</h2>
+<p>Industry conversations and secondary sources commonly put clean salaried home-loan files in a range of roughly <strong>a few days to 2–3 weeks</strong> from complete documentation to sanction, and longer when legal/title issues or incomplete papers appear. Self-employed and complex collateral stretch further.</p>
+<p><strong>Pain points observed / reported:</strong></p>
+<ul>
+  <li>Incomplete or inconsistent documents (income declared ≠ bank credits).</li>
+  <li>Manual re-keying between LOS, CBS, and email attachments.</li>
+  <li>Policy interpretation varies by branch / officer → inconsistent outcomes.</li>
+  <li>Waiting on external parties (lawyer, valuer, bureau) without a single status view.</li>
+  <li>Re-work when RBI circulars or internal policy change mid-pipeline.</li>
+</ul>
+<div class="note"><strong>Implication for agentic AI:</strong> highest value is in document completeness checks, multi-source assembly (CBS + bureau + CERSAI + policy), explained recommendations, and escalation to humans — not in removing the credit officer from sanction.</div>
+
+<h2>7. Sources</h2>
+<ul>
+  <li>Reserve Bank of India — Master Direction / circulars on Know Your Customer (KYC); housing loan related LTV / regulatory instructions (public RBI website).</li>
+  <li>RBI — Guidelines on Fair Practices Code for lenders (public).</li>
+  <li>CERSAI — Central Registry of Securitisation Asset Reconstruction and Security Interest of India (purpose of charge registration / search).</li>
+  <li>Public product pages and process explainers from major Indian retail lenders (HDFC Ltd / banks’ home loan documentation checklists) — used only for typical document lists, not proprietary policy.</li>
+  <li>Assignment brief: <em>BA_Assignment Agentic AI Loan Approval Demo</em> (Niveus / selection process) — problem framing for lakehouse + agents + human-in-the-loop.</li>
+  <li>Informal domain conversations with banking / lending practitioners (names optional per assignment guidance) — validated stage order, FOIR/LTV usage, and that sanction remains a human authority decision.</li>
+</ul>
+<p class="meta">This note supports the Sanctum POV demo. It is not legal or credit advice. Figures and policy references in the interactive demo are illustrative.</p>
+</body>
+</html>

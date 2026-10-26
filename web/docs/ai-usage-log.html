@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D6 — AI Usage Log | Sanctum Home Loan Approval</title>
+<style>
+@page{margin:18mm}
+body{font:15px/1.55 Georgia,serif;color:#1a1a1a;max-width:760px;margin:32px auto;padding:0 20px}
+h1{font-size:1.55rem;margin:0 0 .4em}
+h2{font-size:1.15rem;margin:1.4em 0 .45em;border-bottom:1px solid #ccc;padding-bottom:.25em}
+p,li{margin:0 0 .65em}ul{padding-left:1.2em}
+.meta{color:#555;font-size:.9rem;margin-bottom:1.4em}
+table{border-collapse:collapse;width:100%;font-size:.88rem;margin:10px 0 16px}
+th,td{border:1px solid #ccc;padding:7px 8px;text-align:left;vertical-align:top}
+th{background:#f3f3f3}
+code{font-family:Consolas,monospace;font-size:.86em;background:#f4f4f4;padding:1px 4px}
+@media print{body{margin:0;max-width:none}.noprint{display:none}}
+</style>
+</head>
+<body>
+<p class="noprint"><button onclick="window.print()">Print / Save as PDF</button></p>
+<h1>AI usage log</h1>
+<p class="meta"><strong>Deliverable D6</strong> · Assignment: Agentic AI Loan Approval Demo · Tools: Cursor (Composer / agent) · ~1 page</p>
+
+<h2>1. How AI was used</h2>
+<table>
+  <tr><th>Workstream</th><th>What AI did</th><th>What I directed / corrected</th></tr>
+  <tr><td>Briefing</td><td>Parsed the PDF assignment into deliverables, scoring, and submission checklist.</td><td>Confirmed product = home loan; root folder = <code>Loan approval</code>; host on existing GCP account with near-zero cost.</td></tr>
+  <tr><td>Domain research (D5)</td><td>Drafted stages, roles, documents, LTV/FOIR/CERSAI framing and source list for Indian retail home loans.</td><td>Kept claims conservative; marked demo policy as illustrative; insisted on named public sources + practitioner validation note.</td></tr>
+  <tr><td>Demo UI (D1–D4)</td><td>Built single-page Sanctum app: live agent journey, approach story (2 acts), architecture layers, About/FAQ, Contact, Docs hub.</td><td>Chose navy/gold banking look; three synthetic cases (clean / charged property / income mismatch); human-in-the-loop cannot be skipped.</td></tr>
+  <tr><td>Explainability</td><td>Wired policy table with clause citations and recommendation reasons per case.</td><td>Ensured agent never auto-sanctions; officer buttons record agree/override narrative.</td></tr>
+  <tr><td>Hosting</td><td>Dockerfile + nginx static image; Cloud Run deploy (scale-to-zero, 128Mi) on project <code>veritas-claims-512706</code>.</td><td>Required bare-minimum cost; reuse existing GCP login; India-friendly region where available.</td></tr>
+  <tr><td>This log (D6)</td><td>Structured AI usage into a one-page reflection.</td><td>Reviewed for accuracy and submission readiness.</td></tr>
+</table>
+
+<h2>2. Time saved (honest estimate)</h2>
+<ul>
+  <li>Assignment decomposition &amp; checklist: ~1–2 hours → ~15 minutes.</li>
+  <li>First working multi-page demo + styling + three cases: ~1 day → ~few hours with AI-assisted coding.</li>
+  <li>Research note first draft: ~half day → ~1 hour, then human edit for accuracy tone.</li>
+  <li>Cloud Run packaging &amp; deploy commands: ~2–3 hours → ~30–45 minutes with AI guidance.</li>
+</ul>
+<p><strong>Net:</strong> AI compressed scaffolding and first drafts; human judgment stayed on banking accuracy, HITL design, cost, and what to say in the walkthrough.</p>
+
+<h2>3. Transparency statement</h2>
+<p>Code, copy, and documents were produced with substantial AI assistance in Cursor. I own the product choice (home loan), the decision to keep the agent scripted for demo clarity, the GCP project/account used for hosting, and the final review of domain claims before submission.</p>
+</body>
+</html>

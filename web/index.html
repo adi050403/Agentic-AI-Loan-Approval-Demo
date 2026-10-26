@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sanctum — Agentic Home Loan Approval</title>
+<meta name="description" content="Point-of-view demo: lakehouse + AI agent for Indian retail home loan approval, with a credit officer in control.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F6F9;--card:#fff;--ink:#13233A;--mute:#5A6B80;--line:#D5DEE9;
+  --acc:#C9892E;--acc-ink:#3D2808;--ok:#1B7A58;--okbg:#E2F3EC;
+  --warn:#9A5B00;--warnbg:#FFF0D4;--bad:#B03328;--badbg:#FBE6E3;--nav:#102033;
+  --hero-a:#102033;--hero-b:#1A3A5C;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.65 "DM Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;line-height:1.2;margin:0 0 .55em;font-weight:700}
+h1{font-size:clamp(1.85rem,4vw,2.65rem)}h2{font-size:1.45rem}h3{font-size:1.1rem}
+p{margin:0 0 1em;max-width:68ch}
+a{color:inherit}
+nav{position:sticky;top:0;z-index:20;background:var(--nav);display:flex;gap:2px;align-items:center;padding:10px 18px;flex-wrap:wrap;box-shadow:0 1px 0 rgba(0,0,0,.15)}
+nav .brand{color:#fff;font-family:Fraunces,serif;font-size:1.25rem;margin-right:auto;letter-spacing:.01em}
+nav a{color:#B8C7DA;text-decoration:none;padding:7px 11px;border-radius:6px;font-weight:600;font-size:.88rem}
+nav a.on,nav a:hover{background:var(--acc);color:var(--acc-ink)}
+nav a:focus-visible,button:focus-visible,select:focus-visible,summary:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+main{max-width:1080px;margin:0 auto;padding:28px 20px 72px}
+.view{display:none}.view.on{display:block}
+.hero{background:linear-gradient(135deg,var(--hero-a),var(--hero-b));color:#E8EEF6;border-radius:14px;padding:28px 28px 26px;margin-bottom:22px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:auto -40px -60px auto;width:220px;height:220px;background:radial-gradient(circle,rgba(201,137,46,.35),transparent 70%);pointer-events:none}
+.hero h1{color:#fff;margin-bottom:.35em}
+.hero p{color:#B7C6D8;margin:0;max-width:52ch}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+.grid{display:grid;gap:16px}.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}.g3{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.mute{color:var(--mute)}.small{font-size:.86rem}
+button,select{font:inherit;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:9px 14px;cursor:pointer}
+button.pri{background:var(--acc);color:var(--acc-ink);border-color:var(--acc);font-weight:700}
+button.ok{background:var(--ok);color:#fff;border-color:var(--ok);font-weight:700}
+button.bad{background:var(--bad);color:#fff;border-color:var(--bad);font-weight:700}
+button:disabled{opacity:.45;cursor:not-allowed}
+.pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.76rem;font-weight:700}
+.p-ok{background:var(--okbg);color:var(--ok)}.p-warn{background:var(--warnbg);color:var(--warn)}.p-bad{background:var(--badbg);color:var(--bad)}.p-na{background:var(--line);color:var(--mute)}
+.stages{display:flex;gap:0;overflow-x:auto;margin:18px 0;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+.stage{flex:1 0 112px;padding:10px 11px;border-right:1px solid var(--line);font-size:.8rem;font-weight:600;color:var(--mute)}
+.stage:last-child{border-right:0}
+.stage.done{color:var(--ok)}.stage.cur{background:var(--acc);color:var(--acc-ink)}
+.stage small{display:block;font-weight:400;opacity:.9}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mute);font-weight:600}
+.tw{overflow-x:auto}
+.log{font-size:.88rem;border-left:3px solid var(--acc);padding:4px 0 4px 12px;margin:0 0 10px;animation:in .35s ease}
+@keyframes in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.log b{display:block}
+.band{border-left:5px solid var(--acc);padding-left:16px;margin:6px 0 22px}
+.act{margin:32px 0 10px}
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin:14px 0}
+.flow>div{flex:1 1 140px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:.86rem}
+.flow>div b{display:block;margin-bottom:4px;font-family:Fraunces,serif}
+.layer{display:grid;grid-template-columns:150px 1fr;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.layer>b{font-family:Fraunces,serif}
+@media(max-width:600px){.layer{grid-template-columns:1fr}}
+.chips span{display:inline-block;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:2px 9px;margin:3px 4px 3px 0;font-size:.8rem}
+.hitl{border:2px dashed var(--acc);border-radius:12px;padding:14px;margin:12px 0;background:rgba(201,137,46,.06)}
+details{border-bottom:1px solid var(--line);padding:12px 0}summary{font-weight:700;cursor:pointer}
+input,textarea{font:inherit;width:100%;padding:9px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);margin:4px 0 12px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:4px}
+.foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);font-size:.82rem;color:var(--mute)}
+.doc-list a{display:inline-block;margin:0 12px 8px 0;font-weight:600;color:var(--nav);text-decoration:underline;text-underline-offset:3px}
+</style>
+</head>
+<body>
+<nav aria-label="Main">
+  <span class="brand">Sanctum</span>
+  <a href="#demo">Live demo</a>
+  <a href="#approach">Approach</a>
+  <a href="#architecture">Architecture</a>
+  <a href="#about">About &amp; FAQ</a>
+  <a href="#docs">Docs</a>
+  <a href="#contact">Contact</a>
+</nav>
+<main>
+
+<!-- D1 DEMO -->
+<section class="view" id="v-demo">
+  <div class="hero">
+    <h1>Sanctum</h1>
+    <p>Agentic home loan approval — from application to disbursement. The agent prepares the file; the credit officer decides.</p>
+  </div>
+  <p class="mute">Illustrative scenario with synthetic data only. Choose an applicant and run the journey.</p>
+  <div class="toolbar">
+    <label for="case" class="small mute">Applicant</label>
+    <select id="case" aria-label="Select applicant case"></select>
+    <button class="pri" id="run">Run agent</button>
+    <button id="reset">Reset</button>
+  </div>
+  <div class="stages" id="stages" aria-label="Loan stages"></div>
+  <div class="grid g2">
+    <div class="card"><h3>Agent activity</h3><div id="trace"><p class="mute small">Nothing run yet. The agent's steps, tools and data sources appear here.</p></div></div>
+    <div class="card"><h3>Application</h3><div id="appl"></div></div>
+  </div>
+  <div class="card" style="margin-top:16px" id="dataCard" hidden>
+    <h3>Data assembled from the lakehouse</h3>
+    <div class="tw"><table id="dataTbl"></table></div>
+  </div>
+  <div class="card" style="margin-top:16px" id="polCard" hidden>
+    <h3>Policy checks</h3>
+    <div class="tw"><table id="polTbl"></table></div>
+  </div>
+  <div class="card" style="margin-top:16px" id="recCard" hidden>
+    <h3>Agent recommendation</h3>
+    <div id="rec"></div>
+    <div class="hitl">
+      <b>Credit officer decision</b>
+      <span class="small mute"> — human in the loop: the agent cannot sanction</span>
+      <p class="small" id="hitlNote" style="margin:8px 0"></p>
+      <button class="ok" id="bApp">Approve</button>
+      <button id="bCond">Approve with conditions</button>
+      <button class="bad" id="bRej">Decline</button>
+    </div>
+    <div id="final"></div>
+  </div>
+</section>
+
+<!-- D2 APPROACH -->
+<section class="view" id="v-approach">
+  <h1>Faster, more consistent home loans — with an officer in control</h1>
+  <p>A home loan today touches a dozen documents, three kinds of data and five or six people. Sanctum shows how a lakehouse and one well-governed AI agent can compress that into hours for clean cases and put officer attention where it matters.</p>
+
+  <h2 class="act">Act 1 — Bring the data together</h2>
+  <div class="band"><p>Credit officers work from three worlds that never meet in one place. The lakehouse joins them so every decision starts from the same complete picture.</p></div>
+  <div class="grid g3">
+    <div class="card"><h3>Documents</h3><p class="small">RBI circulars, the bank's credit policy, and applicant KYC, salary slips, bank statements, ITRs, property papers. Read once, turned into searchable facts.</p></div>
+    <div class="card"><h3>Bank records</h3><p class="small">Customer profile, accounts, existing loans, repayment history from core banking. Refreshed daily, held in one governed store.</p></div>
+    <div class="card"><h3>External checks</h3><p class="small">Credit bureau, CERSAI charge search, PAN and Aadhaar verification, GST, account aggregator. Pulled on demand, logged with cost and time.</p></div>
+  </div>
+  <div class="flow">
+    <div><b>Sources</b>Scans, PDFs, core banking, bureau and registry APIs</div>
+    <div><b>Ingest</b>Batch loads and API calls land raw data untouched</div>
+    <div><b>Clean &amp; link</b>One applicant ID across every source; documents become fields</div>
+    <div><b>Lakehouse</b>Raw, refined and ready-to-use layers with lineage</div>
+  </div>
+
+  <h2 class="act">Act 2 — Put an agent on top</h2>
+  <div class="band"><p>The agent does the reading, checking and arithmetic that eat officer hours. It cites every fact and every rule, then hands over a file ready to decide.</p></div>
+  <div class="flow">
+    <div><b>1. Intake</b>Is the file complete? Do documents match what was declared?</div>
+    <div><b>2. Gather</b>Pull bank records; call bureau, CERSAI, KYC</div>
+    <div><b>3. Policy</b>Apply current RBI norms and bank policy</div>
+    <div><b>4. Recommend</b>Approve, refer or decline — with reasons</div>
+    <div><b>5. Officer</b>Human reviews, edits conditions, signs off</div>
+    <div><b>6. Disburse</b>Legal, valuation, mortgage, tranche release</div>
+  </div>
+  <div class="grid g3" style="margin-top:14px">
+    <div class="card"><h3>Faster</h3><p class="small">Clean files: recommendation in minutes, not days of queueing between desks. Targets confirmed in a pilot with your data.</p></div>
+    <div class="card"><h3>More consistent</h3><p class="small">Same rules, same evidence, every branch. Policy changes reach every decision on day one.</p></div>
+    <div class="card"><h3>Auditable</h3><p class="small">Each recommendation lists the data and policy clause behind it. Overrides are recorded with reasons.</p></div>
+  </div>
+
+  <h2 class="act">Where people stay in charge</h2>
+  <p>The officer approves every sanction. The agent escalates on weak documents, policy breaches, existing charges on the property, or low confidence. Declines are never automatic.</p>
+  <p><a href="#demo"><button class="pri">See it run</button></a></p>
+</section>
+
+<!-- D3 ARCHITECTURE -->
+<section class="view" id="v-architecture">
+  <h1>Architecture</h1>
+  <p class="mute">Functional layers first, with the technical services that realise each one. Google Cloud is the reference stack for this POV.</p>
+  <div class="layer"><b>Experience</b><div><p class="small">Applicant portal, branch RM view, credit officer workbench. Streams agent progress live.</p><div class="chips"><span>Web front end</span><span>Cloud Run</span><span>SSE streaming</span></div></div></div>
+  <div class="layer"><b>Agent runtime</b><div><p class="small">One orchestrator agent with a fixed workflow: intake → gather → policy → recommend. Session state per application. Human-approval step pauses the run until the officer acts.</p><div class="chips"><span>Agent framework (ADK)</span><span>Gemini / Claude</span><span>FastAPI</span><span>Firestore sessions</span></div></div></div>
+  <div class="layer"><b>Tools</b><div><p class="small">Narrow, logged functions: query applicant data, read documents, search policy, bureau, CERSAI, KYC verify, FOIR/LTV compute, draft sanction letter.</p><div class="chips"><span>Function tools</span><span>MCP servers</span><span>OpenAPI connectors</span><span>Mock services in demo</span></div></div></div>
+  <div class="layer"><b>Knowledge</b><div><p class="small">Policy and circular text chunked and embedded for retrieval with citations. Extracted document fields stored as structured rows.</p><div class="chips"><span>Document AI</span><span>BigQuery vector search</span><span>Cloud Storage</span></div></div></div>
+  <div class="layer"><b>Lakehouse</b><div><p class="small">Raw, refined and serving layers. Customers, accounts, loans, repayments, applications, extracted fields, bureau and CERSAI responses.</p><div class="chips"><span>BigQuery</span><span>BigLake / GCS</span><span>Dataflow / scheduled loads</span><span>Dataplex lineage</span></div></div></div>
+  <div class="layer"><b>Sources</b><div><p class="small">Core banking, loan origination, document scans, credit bureau, CERSAI, PAN/Aadhaar, GST, account aggregator.</p><div class="chips"><span>CDC / batch ETL</span><span>API gateway</span><span>Secret Manager</span></div></div></div>
+  <div class="layer"><b>Governance</b><div><p class="small">RBAC, PII masking, full decision trace (inputs, tool calls, rules, model version), human override log, eval set before each policy/prompt change, data residency in India.</p><div class="chips"><span>IAM</span><span>DLP</span><span>Cloud Logging</span><span>Feedback store</span></div></div></div>
+
+  <h2 style="margin-top:28px">Demo build vs production</h2>
+  <div class="tw"><table>
+    <tr><th></th><th>This demo</th><th>Production / pilot</th></tr>
+    <tr><td>Data</td><td>Synthetic applicants, 3 scripted cases</td><td>Bank data in BigQuery; 200–1,000 synthetic for pilot</td></tr>
+    <tr><td>Bureau, CERSAI</td><td>Stub responses</td><td>Licensed APIs with consent capture</td></tr>
+    <tr><td>Agent</td><td>Deterministic trace for clarity</td><td>Live LLM with tool calls and evaluation</td></tr>
+    <tr><td>Hosting</td><td>Cloud Run, scale-to-zero</td><td>Cloud Run + VPC + India region</td></tr>
+  </table></div>
+</section>
+
+<!-- D4 ABOUT -->
+<section class="view" id="v-about">
+  <h1>About &amp; FAQ</h1>
+  <p>Sanctum is a point-of-view demo of agentic home loan approval for retail lending teams at Indian banks. It uses synthetic data only and does not connect to any bureau or government system.</p>
+  <details open><summary>Does the AI approve loans?</summary><p>No. It prepares the file and recommends. A credit officer approves, changes or declines every case.</p></details>
+  <details><summary>Which rules does it apply?</summary><p>In the demo: RBI loan-to-value limits for housing loans (90% up to ₹30 lakh, 80% to ₹75 lakh, 75% above), plus illustrative bank limits for FOIR and bureau score. Your credit policy replaces these.</p></details>
+  <details><summary>What happens when documents are poor or inconsistent?</summary><p>The agent flags the mismatch, lists what it needs, and routes the file to an officer rather than guessing.</p></details>
+  <details><summary>How do you keep it consistent when policy changes?</summary><p>Policy documents live in the knowledge layer. Update the document and every later decision cites the new version.</p></details>
+  <details><summary>Where does data sit?</summary><p>In the bank's own cloud project in India, with access control, masking and a full audit trail.</p></details>
+  <details><summary>What would a pilot look like?</summary><p>One product, a few branches, shadow mode first: agent recommends, officers decide as usual, and we compare outcomes and turnaround.</p></details>
+</section>
+
+<!-- DOCS -->
+<section class="view" id="v-docs">
+  <h1>Supporting documents</h1>
+  <p>Assignment deliverables D5 and D6 — research note and AI usage log.</p>
+  <div class="doc-list">
+    <a href="/docs/research-note.html" target="_blank" rel="noopener">D5 — Research note (open)</a>
+    <a href="/docs/ai-usage-log.html" target="_blank" rel="noopener">D6 — AI usage log (open)</a>
+  </div>
+  <div class="grid g2" style="margin-top:12px">
+    <div class="card">
+      <h3>D5 Research note</h3>
+      <p class="small">How home loan approval works in Indian banks: stages, roles, documents, checks, typical turnaround and pain points, with named sources.</p>
+      <a href="/docs/research-note.html" target="_blank"><button class="pri">Open research note</button></a>
+      <a href="/docs/research-note.pdf" target="_blank" class="small" style="margin-left:10px">PDF</a>
+    </div>
+    <div class="card">
+      <h3>D6 AI usage log</h3>
+      <p class="small">How Claude / Cursor AI was used across research, build, content and hosting — including what was corrected.</p>
+      <a href="/docs/ai-usage-log.html" target="_blank"><button class="pri">Open AI usage log</button></a>
+      <a href="/docs/ai-usage-log.pdf" target="_blank" class="small" style="margin-left:10px">PDF</a>
+    </div>
+  </div>
+  <p class="small mute" style="margin-top:18px">Tip: in the browser, use Print → Save as PDF for submission attachments.</p>
+</section>
+
+<!-- CONTACT -->
+<section class="view" id="v-contact">
+  <h1>Contact us</h1>
+  <p>Tell us about your lending process and we will respond within two working days. This form is a demo and does not send data.</p>
+  <div class="card" style="max-width:520px">
+    <label for="n">Name</label><input id="n" autocomplete="name">
+    <label for="e">Work email</label><input id="e" type="email" autocomplete="email">
+    <label for="m">What would you like to improve?</label><textarea id="m" rows="4"></textarea>
+    <button class="pri" id="send">Send message</button>
+    <p id="sent" class="small" style="margin-top:10px"></p>
+  </div>
+</section>
+
+<p class="foot">Sanctum POV demo · Synthetic data only · Hosted on Google Cloud Run (scale-to-zero) · Not affiliated with any bank</p>
+</main>
+
+<script>
+const CASES=[
+{id:"A",name:"Priya Nair, salaried",loan:6000000,tenure:20,prop:7500000,income:180000,type:"Salaried, IT services, 6 yrs",
+ docs:[["KYC (PAN, Aadhaar)","Verified","ok"],["Salary slips (3)","Match declared income","ok"],["Bank statement (6 mo)","Salary credits consistent","ok"],["Property papers","Title chain clear","ok"]],
+ bank:[["Relationship","Salary account since 2019"],["Existing loans","Car loan, EMI ₹14,200"],["Repayment history","0 missed in 36 months"]],
+ bureau:[["CIBIL score","782"],["Active enquiries (90d)","1"]],cersai:[["Charges on property","None found"]],
+ score:782,foir:38,ltv:80,limit:80,charge:false,mismatch:0},
+{id:"B",name:"Rahul Mehta, salaried",loan:8500000,tenure:25,prop:10200000,income:190000,type:"Salaried, mid-size firm, 3 yrs",
+ docs:[["KYC (PAN, Aadhaar)","Verified","ok"],["Salary slips (3)","Match declared income","ok"],["Bank statement (6 mo)","Two EMI bounces in month 4","warn"],["Property papers","Prior mortgage referenced","warn"]],
+ bank:[["Relationship","New to bank"],["Existing loans","Personal loan, EMI ₹21,000; card dues"],["Repayment history","Two late payments in 12 months"]],
+ bureau:[["CIBIL score","684"],["Active enquiries (90d)","5"]],cersai:[["Charges on property","Active charge, another lender, ₹38 lakh"]],
+ score:684,foir:58,ltv:83,limit:75,charge:true,mismatch:0},
+{id:"C",name:"Anita Rao, self-employed",loan:4500000,tenure:15,prop:6000000,income:150000,type:"Self-employed, boutique owner, 8 yrs",
+ docs:[["KYC (PAN, Aadhaar)","Verified","ok"],["ITR (2 yrs)","Declared income ₹1.5L/mo","ok"],["Bank statement (12 mo)","Credits ~31% below ITR-implied income","warn"],["GST returns","Turnover consistent with ITR","ok"]],
+ bank:[["Relationship","Current account since 2016"],["Existing loans","Business loan, EMI ₹18,500"],["Repayment history","0 missed in 48 months"]],
+ bureau:[["CIBIL score","731"],["Active enquiries (90d)","2"]],cersai:[["Charges on property","None found"]],
+ score:731,foir:44,ltv:75,limit:80,charge:false,mismatch:31}
+];
+const ST=[["Application","Applicant or RM"],["Document check","Agent"],["Data & bureau pull","Agent"],["Policy check","Agent"],["Recommendation","Agent"],["Officer decision","Credit officer"],["Sanction & disburse","Ops, legal"]];
+const $=id=>document.getElementById(id);
+const inr=n=>"₹"+n.toLocaleString("en-IN");
+let cur=0,stage=0,rec=null,timer=null;
+CASES.forEach((c,i)=>{const o=document.createElement("option");o.value=i;o.textContent=c.name;$("case").appendChild(o)});
+function emi(c){const r=0.087/12,n=c.tenure*12;return Math.round(c.loan*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1))}
+function drawStages(){$("stages").innerHTML=ST.map((s,i)=>`<div class="stage ${i<stage?"done":i==stage?"cur":""}">${i<stage?"✓ ":""}${s[0]}<small>${s[1]}</small></div>`).join("")}
+function drawAppl(){const c=CASES[cur];$("appl").innerHTML=`<table><tr><th>Product</th><td>Home loan (purchase of ready property)</td></tr><tr><th>Applicant</th><td>${c.name}<br><span class="mute small">${c.type}</span></td></tr><tr><th>Loan asked</th><td>${inr(c.loan)} over ${c.tenure} years</td></tr><tr><th>Property value</th><td>${inr(c.prop)}</td></tr><tr><th>Net monthly income</th><td>${inr(c.income)}</td></tr><tr><th>Indicative EMI at 8.7%</th><td>${inr(emi(c))}</td></tr></table>`}
+function pill(s){return `<span class="pill p-${s}">${{ok:"Pass",warn:"Refer",bad:"Fail",na:"—"}[s]}</span>`}
+function reset(){clearTimeout(timer);stage=0;rec=null;cur=+$("case").value;$("trace").innerHTML='<p class="mute small">Nothing run yet. The agent\'s steps, tools and data sources appear here.</p>';["dataCard","polCard","recCard"].forEach(i=>$(i).hidden=true);$("final").innerHTML="";$("run").disabled=false;["bApp","bCond","bRej"].forEach(i=>$(i).disabled=false);drawStages();drawAppl()}
+function log(t,d){$("trace").insertAdjacentHTML("beforeend",`<div class="log"><b>${t}</b>${d}</div>`)}
+function run(){
+ const c=CASES[cur];$("run").disabled=true;$("trace").innerHTML="";
+ const steps=[
+ ()=>{stage=1;log("Intake check","Tool: read_documents. Extracted fields from "+c.docs.length+" uploaded files and compared with declared income.")},
+ ()=>{stage=2;log("Gather data","Tools: query_applicant (BigQuery), bureau_pull, cersai_search, kyc_verify. External calls logged with time and cost.");
+   $("dataCard").hidden=false;
+   $("dataTbl").innerHTML="<tr><th>Source</th><th>Item</th><th>Result</th></tr>"+c.docs.map(d=>`<tr><td>Documents</td><td>${d[0]}</td><td>${d[1]} ${pill(d[2])}</td></tr>`).join("")+c.bank.map(d=>`<tr><td>Core banking</td><td>${d[0]}</td><td>${d[1]}</td></tr>`).join("")+c.bureau.map(d=>`<tr><td>Credit bureau (mock)</td><td>${d[0]}</td><td>${d[1]}</td></tr>`).join("")+c.cersai.map(d=>`<tr><td>CERSAI (mock)</td><td>${d[0]}</td><td>${d[1]} ${pill(c.charge?"bad":"ok")}</td></tr>`).join("")},
+ ()=>{stage=3;log("Apply policy","Tool: search_policy. Retrieved RBI housing LTV norms and bank credit policy v4.2 (illustrative). Computed FOIR and LTV.");
+   const ltv=Math.round(c.loan/c.prop*100);
+   const chk=[
+   ["Bureau score ≥ 700",String(c.score),"Bank credit policy §3.1",c.score>=700?"ok":c.score>=680?"warn":"bad"],
+   ["FOIR ≤ 50%",c.foir+"%","Bank credit policy §4.2",c.foir<=50?"ok":c.foir<=55?"warn":"bad"],
+   [`LTV ≤ ${c.limit}% for loans of this size`,ltv+"%","RBI housing LTV norms",ltv<=c.limit?"ok":"bad"],
+   ["No prior charge on property",c.charge?"Active charge found":"None","CERSAI search; policy §6.1",c.charge?"bad":"ok"],
+   ["Income consistent across documents",c.mismatch?c.mismatch+"% gap":"Consistent","Policy §2.4",c.mismatch>20?"warn":"ok"],
+   ["KYC verified","Verified","RBI KYC master direction","ok"]];
+   c._chk=chk;
+   $("polCard").hidden=false;
+   $("polTbl").innerHTML="<tr><th>Check</th><th>Value</th><th>Source</th><th>Result</th></tr>"+chk.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td class="mute small">${r[2]}</td><td>${pill(r[3])}</td></tr>`).join("")},
+ ()=>{stage=4;const chk=c._chk,bad=chk.filter(r=>r[3]=="bad"),warn=chk.filter(r=>r[3]=="warn");
+   let verdict,cls,why;
+   if(bad.length>=2){verdict="Refer to officer: recommend decline";cls="bad";why=bad.map(r=>r[0]+": "+r[1]).join("; ")+"."}
+   else if(bad.length||warn.length){verdict="Refer to officer: approve with conditions";cls="warn";why=warn.concat(bad).map(r=>r[0]+": "+r[1]).join("; ")+"."}
+   else{verdict="Recommend approve";cls="ok";why="All policy checks passed."}
+   rec={verdict,cls};
+   log("Recommendation","Compiled reasons, sources and confidence. Handing off to credit officer.");
+   $("recCard").hidden=false;
+   const cond=c.mismatch?"<li>Obtain 12 months of additional business account statements and reconcile income.</li>":c.charge?"<li>Clear / subordinate existing CERSAI charge before sanction.</li><li>Cap LTV and FOIR; consider co-applicant income.</li>":"";
+   $("rec").innerHTML=`<p><span class="pill p-${cls}" style="font-size:.95rem">${verdict}</span></p><p><b>Reasons.</b> ${why}</p><p class="small mute">Evidence: ${chk.map(r=>r[2]).filter((v,i,a)=>a.indexOf(v)==i).join("; ")}. Confidence: ${cls=="ok"?"High":cls=="warn"?"Medium":"High (rule breaches)"}.</p>${cond?"<p><b>Suggested conditions</b></p><ul>"+cond+"</ul>":""}`;
+   $("hitlNote").textContent=cls=="ok"?"Clean file. Review and approve, or override with a reason.":"The agent routed this file to you because of the flags above.";},
+ ()=>{stage=5;drawStages();}
+ ];
+ let i=0;(function next(){if(i>=steps.length)return;steps[i++]();drawStages();timer=setTimeout(next,850)})();
+}
+function decide(kind){
+ const c=CASES[cur];stage=6;drawStages();["bApp","bCond","bRej"].forEach(i=>$(i).disabled=true);
+ const agree=(kind=="approve"&&rec.cls=="ok")||(kind=="cond"&&rec.cls=="warn")||(kind=="rej"&&rec.cls=="bad");
+ let html=`<p class="small mute">Decision recorded with reviewer name, time and ${agree?"agreement with":"override of"} agent recommendation.</p>`;
+ if(kind=="rej")html+=`<p><b>Declined.</b> Applicant notified with reasons. Case closed.</p>`;
+ else html+=`<p><b>${kind=="cond"?"Approved with conditions.":"Approved."}</b> Sanction letter drafted for ${inr(c.loan)}. Next: legal opinion and technical valuation, then agreement signing, mortgage creation and CERSAI registration, then disbursement in tranches.</p>`;
+ $("final").innerHTML=html;
+}
+$("run").onclick=run;$("reset").onclick=reset;$("case").onchange=reset;
+$("bApp").onclick=()=>decide("approve");$("bCond").onclick=()=>decide("cond");$("bRej").onclick=()=>decide("rej");
+$("send").onclick=()=>{$("sent").textContent="Thanks. This is a demo form, so nothing was sent.";};
+function route(){
+  const h=(location.hash||"#demo").slice(1);
+  const k=["demo","approach","architecture","about","docs","contact"].includes(h)?h:"demo";
+  document.querySelectorAll(".view").forEach(v=>v.classList.toggle("on",v.id==="v-"+k));
+  document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+k));
+  window.scrollTo(0,0);
+}
+addEventListener("hashchange",route);route();reset();
+</script>
+</body>
+</html>
