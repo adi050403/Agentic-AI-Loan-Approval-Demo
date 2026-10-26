@@ -39,7 +39,7 @@ Uses project `veritas-claims-512706`, scale-to-zero (`min-instances=0`), 128Mi m
 ```bash
 gcloud config set project veritas-claims-512706
 gcloud run deploy sanctum-loan-demo `
-  --source "D:\Niveus\Loan approval\web" `
+  --source "D:\Niveus\Agentic AI Loan Approval Demo\web" `
   --region asia-south1 `
   --allow-unauthenticated `
   --min-instances 0 `
